@@ -16,7 +16,7 @@ public class Lazy<T> {
   private Maybe<T> value;
 
   private Lazy(T value) {
-    this.value = Maybe.of(value);
+    this.value = Maybe.some(value);
   }
 
   private Lazy(Producer<? extends T> producer) {
@@ -34,9 +34,9 @@ public class Lazy<T> {
   public T get() {
     if (this.value == null) {
       T rawValue = this.producer.produce();
-      this.value = Maybe.of(rawValue);
+      this.value = Maybe.some(rawValue);
     }
-    return this.value.orElse(null);
+    return this.value.get();
   }
 
   @Override
