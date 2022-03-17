@@ -21,6 +21,7 @@ public class Lazy<T> {
 
   private Lazy(Producer<? extends T> producer) {
     this.producer = producer;
+    this.value = Maybe.none();
   }
 
   public static <T> Lazy<T> of(T v) {
@@ -32,18 +33,23 @@ public class Lazy<T> {
   }
 
   public T get() {
-    if (this.value == null) {
+    // 'wrapper' is only called when 'this.value == Maybe.none()'.
+    // Thus, 'this.value' is only reassigned once when 'get' is called
+    // multiple times.
+    Producer<T> wrapper = () -> {
       T rawValue = this.producer.produce();
       this.value = Maybe.some(rawValue);
-    }
-    return this.value.get();
+      return rawValue;
+    };
+    return this.value
+        .orElseGet(wrapper);
   }
 
   @Override
   public String toString() {
-    return this.value == null
-        ? "?"
-        : String.format("%s", this.get());
+    return this.value
+        .map(String::valueOf)
+        .orElse("?");
   }
 
   public <U> Lazy<U> map(Transformer<? super T, ? extends U> transformer) {
