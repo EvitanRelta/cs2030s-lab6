@@ -4,12 +4,11 @@ import java.util.NoSuchElementException;
 
 /**
  * For chaining values that may be null.
- * CS2030S Lab 6
- * AY21/22 Semester 2
  *
  * @author Tan Zong Zhi, Shaun (Group 16A)
+ * @version CS2030S AY 21/22 Sem 2
  *
- * @param <T> The type of the value that may be null
+ * @param <T> The type of the value that may be null.
  */
 public abstract class Maybe<T> {
   private static class None extends Maybe<Object> {

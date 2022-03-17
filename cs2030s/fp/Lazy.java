@@ -1,15 +1,13 @@
 package cs2030s.fp;
 
-
 /**
  * For lazy evaluation of values that are 
  * are expensive to produce.
- * CS2030S Lab 6
- * AY21/22 Semester 2
  *
  * @author Tan Zong Zhi, Shaun (Group 16A)
+ * @version CS2030S AY 21/22 Sem 2 
  *
- * @param <T> The type of the produced value
+ * @param <T> The type of the produced value, returned by the 'get' method.
  */
 public class Lazy<T> {
   private Producer<? extends T> producer;
