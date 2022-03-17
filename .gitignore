@@ -5,3 +5,4 @@
 .gitignore
 run_all_tests.sh
 MyTest*.java
+docs/
