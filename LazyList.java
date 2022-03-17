@@ -1,3 +1,4 @@
+import cs2030s.fp.Lazy;
 import cs2030s.fp.Transformer;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +13,14 @@ import java.util.List;
  */
 class LazyList<T> {
   /** The wrapped java.util.List object */
-  private List<T> list;
+  private List<Lazy<T>> list;
 
   /** 
    * A private constructor to initialize the list to the given one. 
    *
    * @param list The given java.util.List to wrap around.
    */
-  private LazyList(List<T> list) {
+  private LazyList(List<Lazy<T>> list) {
     this.list = list;
   }
 
@@ -36,10 +37,10 @@ class LazyList<T> {
    */
   public static <T> LazyList<T> generate(int n, T seed, Transformer<T, T> f) {
     LazyList<T> lazyList = new LazyList<>(new ArrayList<>());
-    T curr = seed;
+    Lazy<T> curr = Lazy.of(seed);
     for (int i = 0; i < n; i++) {
       lazyList.list.add(curr);
-      curr = f.transform(curr);
+      curr = curr.map(f);
     }
     return lazyList;
   }
@@ -51,7 +52,7 @@ class LazyList<T> {
    * @return The element at index i.
    */
   public T get(int i) {
-    return this.list.get(i);
+    return this.list.get(i).get();
   }
 
   /** 
@@ -61,7 +62,7 @@ class LazyList<T> {
    * @return The index of the element in the list.  -1 is element is not in the list.
    */
   public int indexOf(T v) {
-    return this.list.indexOf(v);
+    return this.list.indexOf(Lazy.of(v));
   }
 
   /** 
