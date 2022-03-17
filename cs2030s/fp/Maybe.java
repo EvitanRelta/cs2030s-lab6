@@ -1,14 +1,16 @@
-/**
- * CS2030S Lab 5
- * AY21/22 Semester 2
- *
- * @author Tan Zong Zhi, Shaun (Group 16A)
- */
-
 package cs2030s.fp;
 
 import java.util.NoSuchElementException;
 
+/**
+ * For chaining values that may be null.
+ * CS2030S Lab 6
+ * AY21/22 Semester 2
+ *
+ * @author Tan Zong Zhi, Shaun (Group 16A)
+ *
+ * @param <T> The type of the value that may be null
+ */
 public abstract class Maybe<T> {
   private static class None extends Maybe<Object> {
     private static final Maybe<?> NONE = new None();
