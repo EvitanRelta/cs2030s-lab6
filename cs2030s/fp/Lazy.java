@@ -1,6 +1,48 @@
 package cs2030s.fp;
 
+
+/**
+ * For lazy evaluation of values that are 
+ * are expensive to produce.
+ * CS2030S Lab 6
+ * AY21/22 Semester 2
+ *
+ * @author Tan Zong Zhi, Shaun (Group 16A)
+ *
+ * @param <T> The type of the produced value
+ */
 public class Lazy<T> {
-  private Producer<T> producer;
+  private Producer<? extends T> producer;
   private Maybe<T> value;
+
+  private Lazy(T value) {
+    this.value = Maybe.of(value);
+  }
+
+  private Lazy(Producer<? extends T> producer) {
+    this.producer = producer;
+  }
+
+  public static <T> Lazy<T> of(T v) {
+    return new Lazy<>(v);
+  }
+
+  public static <T> Lazy<T> of(Producer<? extends T> s) {
+    return new Lazy<>(s);
+  }
+
+  public T get() {
+    if (this.value == null) {
+      T rawValue = this.producer.produce();
+      this.value = Maybe.of(rawValue);
+    }
+    return this.value.orElse(null);
+  }
+
+  @Override
+  public String toString() {
+    return this.value == null
+        ? "?"
+        : String.format("%s", this.get());
+  }
 }
