@@ -86,4 +86,10 @@ public class Lazy<T> {
     return this.value
         .equals(lazyObj.value);
   }
+
+  public <S, R> Lazy<R> combine(Lazy<S> lazyObj, 
+      Combiner<? super T, ? super S, ? extends R> combiner) {
+    Producer<R> newProducer = () -> combiner.combine(this.get(), lazyObj.get());
+    return Lazy.of(newProducer);
+  }
 }
