@@ -65,4 +65,25 @@ public class Lazy<T> {
         .get();
     return Lazy.of(newProducer);
   }
+
+  public Lazy<Boolean> filter(BooleanCondition<? super T> predicate) {
+    Producer<Boolean> newProducer = () -> predicate.test(this.get());
+    return Lazy.of(newProducer);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (!(obj instanceof Lazy<?>)) {
+      return false;
+    }
+
+    Lazy<?> lazyObj = (Lazy<?>) obj;
+
+    // Ensure both Lazy instanced are evaluated
+    this.get();
+    lazyObj.get();
+
+    return this.value
+        .equals(lazyObj.value);
+  }
 }

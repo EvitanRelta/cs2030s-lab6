@@ -1,6 +1,7 @@
 javac -Xlint:rawtypes,unchecked ./cs2030s/fp/*.java
 javac -Xlint:rawtypes,unchecked Test1.java; java Test1
 javac -Xlint:rawtypes,unchecked Test2.java; java Test2
+javac -Xlint:rawtypes,unchecked Test3.java; java Test3
 
 # Check style
 java -jar ~cs2030s/bin/checkstyle.jar -c ~cs2030s/bin/cs2030_checks.xml cs2030s/fp/*.java;
