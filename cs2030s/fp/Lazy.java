@@ -45,4 +45,18 @@ public class Lazy<T> {
         ? "?"
         : String.format("%s", this.get());
   }
+
+  public <U> Lazy<U> map(Transformer<? super T, ? extends U> transformer) {
+    Producer<U> newProducer = () -> transformer
+        .transform(this.get());
+    return Lazy.of(newProducer);
+  }
+
+  public <U> Lazy<U> flatMap(Transformer<? super T, 
+        ? extends Lazy<? extends U>> transformer) {
+    Producer<U> newProducer = () -> transformer
+        .transform(this.get())
+        .get();
+    return Lazy.of(newProducer);
+  }
 }
