@@ -65,16 +65,10 @@ public class Lazy<T> {
    * @return The computed/"cached" value.
    */
   public T get() {
-    // 'wrapper' is only called when 'this.value == Maybe.none()'.
-    // Thus, 'this.value' is only reassigned once when 'get' is called
-    // multiple times.
-    Producer<T> wrapper = () -> {
-      T rawValue = this.producer.produce();
-      this.value = Maybe.some(rawValue);
-      return rawValue;
-    };
-    return this.value
-        .orElseGet(wrapper);
+    T rawValue = this.value
+        .orElseGet(this.producer);
+    this.value = Maybe.some(rawValue);
+    return rawValue;
   }
 
   /**
