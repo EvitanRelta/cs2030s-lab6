@@ -157,7 +157,7 @@ public class Lazy<T> {
    * @param combiner The 'Combiner' function to combined the 2 values by.
    * @return The delayed evaluation of the combined values of 'this' and 'lazyObj'.
    */
-  public <S, R> Lazy<R> combine(Lazy<S> lazyObj, 
+  public <S, R> Lazy<R> combine(Lazy<? extends S> lazyObj, 
       Combiner<? super T, ? super S, ? extends R> combiner) {
     Producer<R> newProducer = () -> combiner.combine(this.get(), lazyObj.get());
     return Lazy.of(newProducer);
